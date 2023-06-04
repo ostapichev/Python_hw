@@ -1,160 +1,93 @@
-# strings
+"""
+1)написати функцію на замикання котра буде в собі зберігати список справ, вам потрібно реалізувати два методи:
+- перший записує в список нову справу
+- другий повертає всі записи
+"""
+
+# 2) протипізувати перше завдання
+from typing import Callable, List
+
+
+def notebook() -> Callable:
+    todo_list: List[str] = []
+    note: str = input('Enter todo: ')
+
+    def add_todo(todo: str) -> None:
+        nonlocal todo_list
+        todo_list.append(todo)
+
+    def get_all() -> None:
+        print(''.join(todo_list))
+
+    add_todo(note)
+    return get_all
+
+
+case1 = notebook()
+case2 = notebook()
+case3 = notebook()
+case4 = notebook()
+case1()
+case2()
+case3()
+case4()
 
 """
-1) написати прогу яка вибирає зі введеної строки цифри і виводить їх через кому,
-наприклад: st = 'as 23 fdfdg544' введена строка 2,3,5,4,4 вивело в консолі.
-"""
-st = 'as 23 fdfdg544'
-print(', '.join(i for i in st if i.isdigit()))
+3) створити функцію котра буде повертати сумму розрядів числа у вигляді строки (також використовуемо типізацію)
 
-"""
-2) написати прогу яка вибирає зі введеної строки числа і виводить їх 
-так як вони написані
-наприклад: st = 'as 23 fdfdg544 34' #введена строка 23, 544, 34 вивело в консолі
-"""
-st2 = 'as 23 fdfdg544 34'
-print(', '.join(''.join(ch if ch.isdigit() else ' ' for ch in st2).split()))
+Приклад:
 
-# list comprehension
-"""
-1) є строка:
-greeting = 'Hello, world'
-записати кожний символ як окремий елемент списку і зробити його заглавним:
-['H', 'E', 'L', 'L', 'O', ',', ' ', 'W', 'O', 'R', 'L', 'D']
-"""
-greeting = 'Hello, world'
-print([s.upper() for s in greeting])
-
-"""
-2) з диапозону від 0-50 записати тільки не парні числа при цьому піднести їх до квадрату
-приклад:
-[0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 324, ...]
-"""
-print([i ** 2 for i in range(51) if i % 2])
-
-
-# - створити функцію яка виводить ліст
-def get_list(*arr):
-    print(arr)
-
-
-get_list(1, 2, 3, 5, 8)
-
-
-# - створити функцію яка приймає три числа та виводить та повертає найбільше.
-def get_max(a, b, c):
-    return max(a, b, c)
-
-
-max_num = get_max(2, 1, 23)
-print(max_num)
-
-
-# - створити функцію яка приймає будь-яку кількість чисел, повертає найменьше, а виводить найбільше
-def get_max_args(*args):
-    return max(args)
-
-
-max_args = get_max_args(8, 3, 9, 22, 15)
-print(max_args)
-
-
-# - створити функцію яка повертає найбільше число з ліста
-def get_max_list(nums):
-    return max(nums)
-
-
-number = [3, 6, 10, 34, 8, 21]
-max_list = get_max_list(number)
-print(max_list)
-
-
-# - створити функцію яка повертає найменьше число з ліста
-def get_min_list(nums):
-    return min(nums)
-
-
-min_list = get_min_list(number)
-print(min_list)
-
-
-# - створити функцію яка приймає ліст чисел та складає значення елементів ліста та повертає його.
-def get_num_list(nums):
-    return sum(nums)
-
-
-sum_list = get_num_list(number)
-print(sum_list)
-
-
-# - створити функцію яка приймає ліст чисел та повертає середнє арифметичне його значень.
-def get_avg_list(nums):
-    return sum(nums) // len(nums)
-
-
-avg_list = get_avg_list(number)
-print(avg_list)
-
-"""
-1)Дан list:
-  list = [22, 3,5,2,8,2,-23, 8,23,5]
-  - знайти мін число
-  - видалити усі дублікати
-  - замінити кожне 4-те значення на 'X'
-"""
-list_nums = [22, 3, 5, 2, 8, 2, -23, 8, 23, 5]
-min_num = min(list_nums)
-del_duplicate = set(list_nums)
-
-count_x = len(list_nums) // 4
-list_x = []
-
-for x in range(count_x):
-    list_x.append('X')
-
-list_nums[3::4] = list_x
-
-print(min_num)
-print(del_duplicate)
-print(list_nums)
-
-"""
-2) вивести на екран пустий квадрат з "*" сторона якого вказана як агрумент функції
+expanded_form(12) # return '10 + 2'
+expanded_form(42) # return '40 + 2'
+expanded_form(70304) # return '70000 + 300 + 4'
 """
 
 
-def print_stars(count_stars):
-    print('*' * count_stars)
+def expanded_form(num: int) -> str:
+    str_num = str(num)
+    res: List[str] = []
+    num_digit = len(str_num) - 1
+    for i in str_num:
+        if i != '0':
+            res.append(i + '0' * num_digit)
+        num_digit -= 1
+    return ' + '.join(res)
 
 
-def print_space(count_space):
-    print('*', ' ' * count_space, '*')
-
-
-def print_row(row, space_count):
-    for i in range(row):
-        print_space(space_count)
-
-
-def print_square(stars, space, row):
-    print_stars(stars)
-    print_row(row, space)
-    print_stars(stars)
-
-
-print_square(10, 6, 8)
+print(expanded_form(12))
+print(expanded_form(42))
+print(expanded_form(70304))
 
 """
-3) вывести табличку множення за допомогою цикла while
+4) створити декоратор котрий буде підраховувати скільки разів 
+була запущена функція продекорована цим декоратором, 
+та буде виводити це значення після виконання функцій
 """
-count = 0
-while count < 9:
-    count += 1
-    for i in range(1, 10):
-        num_table = i * count
-        print(f'{num_table:4d}', end='')
-    print()
 
-"""
-4) переробити це завдання під меню
-"""
+
+def decor(func) -> Callable:
+    count = 0
+
+    def count_func(*args, **kwargs):
+        nonlocal count
+        count += 1
+        print(f'count: {count}')
+        func()
+        print('-' * 20)
+    return count_func
+
+
+@decor
+def func1():
+    print('func1')
+
+
+@decor
+def func2():
+    print('func2')
+
+
+func1()
+func1()
+func2()
+func1()

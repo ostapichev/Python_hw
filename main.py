@@ -12,9 +12,10 @@ def notebook() -> Callable:
     todo_list: List[str] = []
     note: str = input('Enter todo: ')
 
-    def add_todo(todo: str) -> None:
+    def add_todo(todo: str) -> List[str]:
         nonlocal todo_list
         todo_list.append(todo)
+        return todo_list
 
     def get_all() -> None:
         print(''.join(todo_list))

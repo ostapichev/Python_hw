@@ -45,9 +45,9 @@ expanded_form(70304) # return '70000 + 300 + 4'
 
 
 def expanded_form(num: int) -> str:
-    str_num = str(num)
+    str_num: str = str(num)
     res: List[str] = []
-    num_digit = len(str_num) - 1
+    num_digit: int = len(str_num) - 1
     for i in str_num:
         if i != '0':
             res.append(i + '0' * num_digit)

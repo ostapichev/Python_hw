@@ -69,7 +69,7 @@ print(expanded_form(70304))
 def decor(func) -> Callable:
     count: int = 0
 
-    def count_func(*args, **kwargs):
+    def count_func(*args, **kwargs) -> None:
         nonlocal count
         count += 1
         print(f'count: {count}')

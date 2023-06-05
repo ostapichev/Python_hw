@@ -73,8 +73,9 @@ def decor(func) -> Callable:
         nonlocal count
         count += 1
         print(f'count: {count}')
-        func(args, kwargs)
+        func(*args, **kwargs)
         print('-' * 20)
+
     return count_func
 
 

@@ -1,95 +1,73 @@
 """
-1)написати функцію на замикання котра буде в собі зберігати список справ, вам потрібно реалізувати два методи:
-- перший записує в список нову справу
-- другий повертає всі записи
+Створити клас Rectangle:
+-він має приймати дві сторони x,y
+-описати поведінку на арифметични методи:
+  + сумма площин двох екземплярів ксласу
+  - різниця площин двох екземплярів ксласу
+  == площин на рівність
+  != площин на не рівність
+  >, < меньше більше
+  при виклику метода len() підраховувати сумму сторін
+
+  ###############################################################################
 """
 
-# 2) протипізувати перше завдання
-from typing import Callable, List
 
+class Rectangle:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
-def notebook() -> Callable:
-    todo_list: List[str] = []
-    note: str = input('Enter todo: ')
+    def square(self):
+        return self.x * self.y
 
-    def add_todo(todo: str) -> List[str]:
-        nonlocal todo_list
-        todo_list.append(todo)
-        return todo_list
+    def __sub__(self, other):
+        self.square() - (other.x * other.y)
 
-    def get_all() -> None:
-        print(''.join(todo_list))
+    def __eq__(self, other):
+        return self.square() == (other.x * other.y)
 
-    add_todo(note)
-    return get_all
-
-
-case1 = notebook()
-case2 = notebook()
-case3 = notebook()
-case4 = notebook()
-case1()
-case2()
-case3()
-case4()
+    def __
 
 """
-3) створити функцію котра буде повертати сумму розрядів числа у вигляді строки (також використовуемо типізацію)
+створити класс Human (name, age)
+створити два класси Prince и Cinderella які наслідуються від Human:
+у попелюшки мае бути ім'я, вік, розмір нонги
+у принца має бути ім'я, вік, та розмір знайденого черевичка, а також метод котрий буде приймати список попелюшок, та шукати ту саму
+
+в класі попелюшки має бути count який буде зберігати кількість створених екземплярів классу
+також має бути метод классу який буде виводити це значення
+
+
+###############################################################################
+
+1) Створити абстрактний клас Printable який буде описувати абстрактний метод print()
+2) Створити класи Book та Magazine в кожного в конструкторі змінна name, та який наслідуются від класу Printable
+3) Створити клас Main в якому буде:
+- змінна класу printable_list яка буде зберігати книжки та журнали
+- метод add за допомогою якого можна додавати екземпляри класів в список і робити перевірку чи то що передають є класом Book або Magazine инакше ігрнорувати додавання
+- метод show_all_magazines який буде виводити всі журнали викликаючи метод print абстрактного классу
+- метод show_all_books який буде виводити всі книги викликаючи метод print абстрактного классу
 
 Приклад:
 
-expanded_form(12) # return '10 + 2'
-expanded_form(42) # return '40 + 2'
-expanded_form(70304) # return '70000 + 300 + 4'
+Main.add(Magazine('Magazine1'))
+    Main.add(Book('Book1'))
+    Main.add(Magazine('Magazine3'))
+    Main.add(Magazine('Magazine2'))
+    Main.add(Book('Book2'))
+
+    Main.show_all_magazines()
+    print('-' * 40)
+    Main.show_all_books()
+    
+
+для перевірки ксассів використовуємо метод isinstance, приклад:
+
+
+user = User('Max', 15)
+shape = Shape()
+
+isinstance(max, User) -> True
+isinstance(shape, User) -> False
 """
-
-
-def expanded_form(num: int) -> str:
-    str_num: str = str(num)
-    res: List[str] = []
-    num_digit: int = len(str_num) - 1
-    for i in str_num:
-        if i != '0':
-            res.append(i + '0' * num_digit)
-        num_digit -= 1
-    return ' + '.join(res)
-
-
-print(expanded_form(12))
-print(expanded_form(42))
-print(expanded_form(70304))
-
-"""
-4) створити декоратор котрий буде підраховувати скільки разів 
-була запущена функція продекорована цим декоратором, 
-та буде виводити це значення після виконання функцій
-"""
-
-
-def decor(func) -> Callable:
-    count: int = 0
-
-    def count_func(*args, **kwargs) -> None:
-        nonlocal count
-        count += 1
-        print(f'count: {count}')
-        func(*args, **kwargs)
-        print('-' * 20)
-
-    return count_func
-
-
-@decor
-def func1():
-    print('func1')
-
-
-@decor
-def func2():
-    print('func2')
-
-
-func1()
-func1()
-func2()
-func1()

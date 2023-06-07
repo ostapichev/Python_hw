@@ -11,6 +11,7 @@
 
   ###############################################################################
 """
+from typing import Self
 
 
 class Rectangle:
@@ -21,22 +22,22 @@ class Rectangle:
     def square(self) -> int:
         return self.x * self.y
 
-    def __add__(self, other):
+    def __add__(self, other: Self):
         return f'Add: {self.square() + Rectangle.square(other)}'
 
-    def __sub__(self, other):
+    def __sub__(self, other: Self):
         return f'Sub: {self.square() - Rectangle.square(other)}'
 
-    def __eq__(self, other):
+    def __eq__(self, other: Self):
         return f'Equal: {self.square() == Rectangle.square(other)}'
 
-    def __lt__(self, other):
+    def __lt__(self, other: Self):
         return f'Lt: {self.square() < Rectangle.square(other)}'
 
-    def __gt__(self, other):
+    def __gt__(self, other: Self):
         return f'Gt: {self.square() > Rectangle.square(other)}'
 
-    def __ne__(self, other):
+    def __ne__(self, other: Self):
         return f'Ne: {self.square() != Rectangle.square(other)}'
 
     def __len__(self):
@@ -113,7 +114,7 @@ class Cinderella(Human):
                f'All instances: {self.count}.'
 
 
-def show_instance(args: list) -> None:
+def show_instance(args: tuple) -> None:
     [print(arg) for arg in args]
 
 
@@ -145,19 +146,19 @@ class Printable(ABC):
 # 2) Створити класи Book та Magazine в кожного в конструкторі змінна name, та який наслідуются від класу Printable
 
 class Book(Printable, ABC):
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
 
     def print(self):
-        print("Book:", self.name)
+        print('Book: ', self.name)
 
 
 class Magazine(Printable, ABC):
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
 
     def print(self):
-        print("Magazine:", self.name)
+        print('Magazine: ', self.name)
 
 
 """
@@ -195,16 +196,16 @@ class Main:
     printable_list: list = []
 
     @classmethod
-    def add(cls, instance) -> None:
+    def add(cls: Self, instance: object) -> None:
         if isinstance(instance, (Book, Magazine)):
             cls.printable_list.append(instance)
 
     @classmethod
-    def show_all_magazines(cls) -> None:
+    def show_all_magazines(cls: Self) -> None:
         [instance.print() for instance in cls.printable_list if isinstance(instance, Magazine)]
 
     @classmethod
-    def show_all_books(cls) -> None:
+    def show_all_books(cls: Self) -> None:
         [instance.print() for instance in cls.printable_list if isinstance(instance, Book)]
 
 

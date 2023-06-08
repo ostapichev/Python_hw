@@ -19,7 +19,7 @@ class Rectangle:
         self.x = x
         self.y = y
 
-    def square(self) -> int:
+    def square(self):
         return self.x * self.y
 
     def __add__(self, other: Self):
@@ -89,7 +89,7 @@ class Prince(Human):
         super().__init__(name, age)
         self.size_shoe = size_shoe
 
-    def find_cinderella(self, *args: int | str):
+    def find_cinderella(self, *args: tuple):
         for size in args:
             if size == self.size_shoe:
                 print(f'Is size: {size} perfect! {args[1]} is Cinderella!!!')
@@ -112,10 +112,6 @@ class Cinderella(Human):
         return f'My name is {self.name}, my {self.age} years old, ' \
                f'I have shoe size {self.size} and my number {self.number}. ' \
                f'All instances: {self.count}.'
-
-
-def show_instance(args: tuple) -> None:
-    [print(arg) for arg in args]
 
 
 girls = [
@@ -145,7 +141,7 @@ class Printable(ABC):
 
 # 2) Створити класи Book та Magazine в кожного в конструкторі змінна name, та який наслідуются від класу Printable
 
-class Book(Printable, ABC):
+class Book(Printable):
     def __init__(self, name: str):
         self.name = name
 
@@ -153,7 +149,7 @@ class Book(Printable, ABC):
         print('Book: ', self.name)
 
 
-class Magazine(Printable, ABC):
+class Magazine(Printable):
     def __init__(self, name: str):
         self.name = name
 
@@ -201,12 +197,16 @@ class Main:
             cls.printable_list.append(instance)
 
     @classmethod
-    def show_all_magazines(cls: Self) -> None:
-        [instance.print() for instance in cls.printable_list if isinstance(instance, Magazine)]
+    def show_all_magazines(cls) -> None:
+        for instance in cls.printable_list:
+            if isinstance(instance, Magazine):
+                instance.print()
 
     @classmethod
-    def show_all_books(cls: Self) -> None:
-        [instance.print() for instance in cls.printable_list if isinstance(instance, Book)]
+    def show_all_books(cls) -> None:
+        for instance in cls.printable_list:
+            if isinstance(instance, Book):
+                instance.print()
 
 
 main = Main()

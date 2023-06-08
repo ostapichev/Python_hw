@@ -89,7 +89,7 @@ class Prince(Human):
         super().__init__(name, age)
         self.size_shoe = size_shoe
 
-    def find_cinderella(self, *args: tuple):
+    def find_cinderella(self, *args: str | int):
         for size in args:
             if size == self.size_shoe:
                 print(f'Is size: {size} perfect! {args[1]} is Cinderella!!!')

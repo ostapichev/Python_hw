@@ -21,31 +21,139 @@ with open('gmails.txt', 'w') as new_file:
 * має бути можливість видаляти покупку по id
 (ну і меню на це все)
 """
-
 import json
-from pprint import pprint
 
 
-purchases = [
-    {'id': 1, 'product': 'TV', 'price': 15000},
-    {'id': 2, 'product': 'washing machine', 'price': 12000},
-    {'id': 3, 'product': 'laptop', 'price': 30000},
-    {'id': 4, 'product': 'toaster', 'price': 1200},
-    {'id': 5, 'product': 'microwave', 'price': 5500},
-    {'id': 6, 'product': 'fridge', 'price': 20000},
-]
+class Purchase:
+    FILE = 'purchases1.json'
 
-file_name = 'purchases.json'
-with open(file_name, 'w') as f:
-    json.dump(purchases, f)
+    def __init__(self, product, price, id):
+        self.product = product
+        self.price = price
+        self.id = id
+        self.purchases = []
+        self.save_purchases()
 
-with open(file_name) as f:
-    purchase = json.load(f)
-    pprint(purchase)
+    def load_purchase(self):
+        try:
+            with open(Purchase.FILE) as f:
+                self.purchases = json.load(f)
+        except FileNotFoundError:
+            pass
 
-product_name = input('Enter a product')
-price = input('Enter a price')
+    def save_purchases(self):
+        purchases_data = self.to_dict()
+        self.load_purchase()
+        self.purchases.append(purchases_data)
+        with open(Purchase.FILE, 'w') as f:
+            json.dump(self.purchases, f, indent=4)
 
+    def get_all_purchases(self):
+        return self.purchases
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.product,
+            'price': self.price
+        }
+
+    def __str__(self):
+        return f'id: {self.id} product: {self.product} price: {self.price}'
+
+
+def load_all():
+    try:
+        with open(Purchase.FILE) as f:
+            purchases = json.load(f)
+            for purchase in purchases:
+                string = str(purchase)
+                new_string = string.replace('{', '').replace('}', '')
+                print(new_string)
+    except FileNotFoundError:
+        pass
+
+
+def write_note():
+    product = input('Enter a product ')
+    price = float(input('Enter a price '))
+    id = int(input('Enter id '))
+    Purchase(product, price, id)
+
+
+def search_in_json(file_path, search_value, search_key='name'):
+    results = []
+    with open(file_path) as f:
+        data = json.load(f)
+        for item in data:
+            if search_key in item and item[search_key] == search_value:
+                results.append(item)
+    return results
+
+
+def get_expensive():
+    with open(Purchase.FILE) as f:
+        purchases = json.load(f)
+    if not purchases:
+        return None
+    print(max(purchases, key=lambda purchase: purchase['price']))
+
+
+def del_purchase(id):
+    with open(Purchase.FILE) as f:
+        data = json.load(f)
+
+    deleted_id = []
+    updated_data = []
+    for item in data:
+        print(item['id'])
+        if item['id'] != int(id):
+            updated_data.append(item)
+        else:
+            deleted_id.append(item)
+
+    with open(Purchase.FILE, 'w') as f:
+        json.dump(updated_data, f, indent=4)
+
+    return deleted_id
+
+
+while True:
+    print('1. Show all purchases')
+    print('2. Add purchase to Book')
+    print('3. Search a purchase')
+    print('4. Show a most expensive')
+    print('5. Delete a purchase')
+    print('6. Exit')
+    choice = input('Mke your choice ')
+
+    match choice:
+        case '1':
+            load_all()
+        case '2':
+            write_note()
+        case '3':
+            value = input('value ')
+            search_results = search_in_json('purchases1.json', value)
+            if search_results:
+                for result in search_results:
+                    print(result)
+            else:
+                print("No results found.")
+        case '4':
+            get_expensive()
+        case '5':
+            del_id = input('Enter removed ID: ')
+            file_path = 'purchases.json'
+            removed_ids = del_purchase(del_id)
+            if removed_ids:
+                print("Removed items:")
+                for item in removed_ids:
+                    print(item)
+            else:
+                print("No items found for removal.")
+        case '6':
+            break
 
 """
 *********Кому буде замало ось завдання з співбесіди

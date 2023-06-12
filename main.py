@@ -144,7 +144,6 @@ while True:
             get_expensive()
         case '5':
             del_id = input('Enter removed ID: ')
-            file_path = 'purchases.json'
             removed_ids = del_purchase(del_id)
             if removed_ids:
                 print("Removed items:")

@@ -25,7 +25,7 @@ import json
 
 
 class Purchase:
-    FILE = 'purchases1.json'
+    FILE = 'purchases.json'
 
     def __init__(self, product, price, id):
         self.product = product
